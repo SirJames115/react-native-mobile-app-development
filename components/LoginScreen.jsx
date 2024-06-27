@@ -1,10 +1,35 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as Linking from "expo-linking";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import loginCup from "../assets/images/loginCup.jpg";
-import addPic from "./../assets/images/addPic.png";
+import * as WebBrowser from "expo-web-browser";
+import { useWarmUpBrowser } from "./../hooks/useWarmUpBrowser";
+import { useOAuth } from "@clerk/clerk-expo";
 
+WebBrowser.maybeCompleteAuthSession();
 export default function LoginScreen() {
+  useWarmUpBrowser();
+
+  const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
+
+  const onPress = React.useCallback(async () => {
+    try {
+      const { createdSessionId, signIn, signUp, setActive } =
+        await startOAuthFlow({
+          redirectUrl: Linking.createURL("/home", { scheme: "myapp" }),
+        });
+
+      if (createdSessionId) {
+        setActive({ session: createdSessionId });
+      } else {
+        // Use signIn or signUp for next steps such as MFA
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  }, []);
+
   return (
     <View>
       <View
@@ -50,7 +75,7 @@ export default function LoginScreen() {
           Find your favorite busines near you and push your own business to your
           Community
         </Text>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={onPress}>
           <Text
             style={{
               color: Colors.WHITE,
