@@ -4,9 +4,12 @@ import { Colors } from "../../constants/Colors";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
 import CategoryItem from "./CategoryItem";
+import { useRouter } from "expo-router";
 
 export default function Category() {
   const [categoryListing, setCategoryListing] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     GetCategoryList();
@@ -41,8 +44,6 @@ export default function Category() {
           style={{
             fontFamily: "outfit-bold",
             fontSize: 20,
-            // paddingLeft: 20,
-            // paddingTop: 20,
             marginBottom: 5,
           }}>
           Category
@@ -64,7 +65,9 @@ export default function Category() {
           <CategoryItem
             category={item}
             key={index}
-            onCategoryPress={onCategoryPress}
+            onCategoryPress={(category) =>
+              router.push("/businesslist/" + item.name)
+            }
           />
         )}
       />
