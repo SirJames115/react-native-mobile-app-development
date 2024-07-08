@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import UserIntro from "../../components/Profile/UserIntro";
+import MenuList from "../../components/Profile/MenuList";
 
 export default function profile() {
   return (
@@ -19,6 +20,7 @@ export default function profile() {
       <UserIntro />
 
       {/* Menu List */}
+      <MenuList />
     </View>
   );
 }
