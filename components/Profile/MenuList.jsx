@@ -43,7 +43,7 @@ export default function MenuList() {
 
   const onMenuClick = (item) => {
     if (item.path === "logout") {
-      SignedOut();
+      signOut();
       return;
     }
 
