@@ -42,12 +42,12 @@ export default function MenuList() {
   ];
 
   const onMenuClick = (item) => {
-    if (item.path == "logout") {
+    if (item.path === "logout") {
       SignedOut();
       return;
     }
 
-    if (item.path == "share") {
+    if (item.path === "share") {
       Share.share({
         message:
           "Download the Business Directory App repo by James Othniel from https://github.com/SirJames115/react-native-mobile-app-development",
