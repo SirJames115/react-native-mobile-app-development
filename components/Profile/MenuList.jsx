@@ -1,10 +1,19 @@
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Share,
+} from "react-native";
 import React from "react";
 import { Colors } from "./../../constants/Colors";
 import { useRouter } from "expo-router";
+import { SignedOut, useAuth } from "@clerk/clerk-expo";
 
 export default function MenuList() {
   const router = useRouter();
+  const { signOut } = useAuth();
   const menuList = [
     {
       id: 1,
@@ -22,19 +31,50 @@ export default function MenuList() {
       id: 3,
       name: "Share App",
       icon: require("./../../assets/images/share.png"),
-      path: "",
+      path: "share",
     },
     {
       id: 4,
       name: "Logout",
       icon: require("./../../assets/images/logout.png"),
-      path: "",
+      path: "logout",
     },
   ];
 
   const onMenuClick = (item) => {
+    if (item.path == "logout") {
+      SignedOut();
+      return;
+    }
+
+    if (item.path == "share") {
+      Share.share({
+        message:
+          "Download the Business Directory App repo by James Othniel from https://github.com/SirJames115/react-native-mobile-app-development",
+      });
+      return;
+    }
+
     router.push(item.path);
   };
+
+  // const onMenuClick = (item) => {
+  //   if (item.path === "logout") {
+  //     SignedOut();
+  //     return;
+  //   }
+
+  //   if (item.path === "share") {
+  //     Share.share({
+  //       message:
+  //         "Download the Business Directory App repo by James Othniel from https://github.com/SirJames115/react-native-mobile-app-development",
+  //     });
+  //     return;
+  //   }
+
+  //   router.push(item.path);
+  // };
+
   return (
     <View
       style={{
